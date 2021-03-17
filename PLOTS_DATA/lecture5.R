@@ -8,7 +8,7 @@ library(dplyr)
 library(ggiraph)
 ####
 
-source("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/PLOTS.R")
+source("PLOTS.R")
 
 app <- Dash$new(external_stylesheets = dbcThemes$LUX)
 
@@ -24,6 +24,7 @@ app$layout(
             htmlDiv(list(
               dbcRow(list(
                 dbcCol(list(
+                  htmlH6("COUNTRY"),
                   dccDropdown(
                     id= 'country-dropdown',
                     value = 'Canada',
@@ -32,6 +33,7 @@ app$layout(
                     style = list(width =300)
                   ),
                   htmlBr(),
+                  htmlH6("AGE"),
                   dccDropdown(
                     id= 'age-dropdown',
                     value = '15-24 years',
@@ -40,6 +42,7 @@ app$layout(
                     style = list(width=300)
                   ),
                   htmlBr(),
+                  htmlH6("SEX"),
                   dccDropdown(
                     id='sex-dropdown',
                     value = 'male',
@@ -48,7 +51,7 @@ app$layout(
                     style = list(width=300)
                   )
                 ), style = list(width = 50)),
-                dbcCol(dccGraph(figure = plot1()),style = list(width=2000, justify='right'))
+                dbcCol(dccGraph(figure = plot1()),style = list(width=3000, justify='right'))
               )
               ),
               htmlBr(),
@@ -62,24 +65,13 @@ app$layout(
           )
         )
       ),
-      dccTab(dbcContainer(
-        list(
-          htmlBr(),
-          htmlH2("This is the content for the second tab"),
-          dbcRow(list(
-            dbcCol(dccGraph(figure = plot3()))
-          )),
-          dbcRow(list(
-            dbcCol(dccGraph(figure = plot3())),
-            dbcCol(dccGraph(figure = plot3()))
-          )
-          )
-        )
+      dccTab(
+        dbcRow(
+          dbcCol(dccGraph(figure = plot3()), width = 10)
+        ))
       ))
     )
-  )
-  
-)
+
 
 # Specify the required call backs:
 
