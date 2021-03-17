@@ -31,6 +31,8 @@ names(country_data) <- c("region", "value")
 df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv')
 names(df)[1] <- "region"
 
+# Read the required suicide dataset:
+suicide_data <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/master_HDI.csv")
 
 #setdiff(country_data$region, df$region)
 
@@ -77,8 +79,9 @@ plot1_data$year <- as.Date(plot1_data$year,format="%Y")
 plot1_data$age <- as.factor(plot1_data$age)
 head(plot1_data)
 
-plot2 <- function(age){
+plot2 <- function(age, country){
   plot1_data <- plot1_data[plot1_data$age == age,]
+  plot1_data <- plot1_data[plot1_data$country == country,]
   g <- ggplot(plot1_data, aes(x = year, y = Average_suicides_per_capita, colour = age))+geom_line() +
     labs(title="Average Suicides per Capita by year Colored by Age",
          x="year",
@@ -119,3 +122,45 @@ plot3 <- function(){
            legend.text = element_text(size = 5))
   return(ggplotly(p2))
 }
+
+
+# Aditya plot:
+
+plot4 <- function(countries, gender){
+  data_subset <- subset(suicide_data, country==countries & sex==gender)
+  p4 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
+    geom_point(aes(size = HDI, color = age)) +
+    ggtitle('Plot of Suicides per 100k by Year') +
+    xlab('Year') + ylab('Suicides per 100k Population')
+  return(ggplotly(p4))
+}
+
+# Sowmya's plot
+plot5 <- function(country_data){
+  data[data$generation=='G.I. Generation',]$generation <- '1.G.I'
+  data[data$generation=='Silent',]$generation <- '2.Silent'
+  data[data$generation=='Boomers',]$generation <- '3.Boomers'
+  data[data$generation=='Generation X',]$generation <- '4.Gen X'
+  data[data$generation=='Millenials',]$generation <- '5.Millenials'
+  data[data$generation=='Generation Z',]$generation <- '6.Gen Z'
+  p5 <- ggplot(data = data)+
+    aes(x = data$generation,
+        y = data$suicides.100k.pop,
+        color = generation,
+    )+
+    geom_boxplot(text = paste('generation', data$generation))+
+    facet_wrap(~data$sex)+
+    ggtitle("Suicides per 100k vs generation")+
+    ylab("Suicides per 100k")+
+    xlab("Generation")+
+    theme(axis.text.x = element_blank(),
+          axis.title.x = element_blank(),
+          axis.ticks.x=element_blank(), 
+          panel.background = element_rect(fill = "grey",linetype = "solid")
+          )
+    
+  p5
+  return(ggplotly(p5))
+}
+
+ggplotly(p5)

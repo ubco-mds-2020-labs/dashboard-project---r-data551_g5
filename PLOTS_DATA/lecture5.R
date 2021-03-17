@@ -10,12 +10,12 @@ library(ggiraph)
 
 source("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/PLOTS.R")
 
-app <- Dash$new(external_stylesheets = dbcThemes$LUX)
+app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 
 app$layout(
   dccTabs(
     list(
-      dccTab(
+      dccTab( label = "Suicide rates",
         dbcContainer(
           list(
             htmlBr(),
@@ -55,9 +55,10 @@ app$layout(
               htmlLabel("Second Half of the graph"),
               dbcRow(list(
                 dbcCol(
-                  dccGraph(id= "plot2",figure = plot2(age='15-24 years'))
+                  dccGraph(id= "plot2",figure = plot2(age='15-24 years', country= 'Canada'))
                 ),
-                dbcCol(dccGraph(figure = plot3()))))
+                dbcCol(
+                  dccGraph(id = "plot4",figure = plot4(countries = 'Canada', gender= 'male')))))
             ))
           )
         )
@@ -66,11 +67,9 @@ app$layout(
         list(
           htmlBr(),
           htmlH2("This is the content for the second tab"),
+          dbcRow(dbcCol(dccGraph(figure = plot3()))),
           dbcRow(list(
-            dbcCol(dccGraph(figure = plot3()))
-          )),
-          dbcRow(list(
-            dbcCol(dccGraph(figure = plot3())),
+            dbcCol(dccGraph(figure = plot5())),
             dbcCol(dccGraph(figure = plot3()))
           )
           )
@@ -86,9 +85,22 @@ app$layout(
 # Testing on Yatin's plot:
 app$callback(
   output('plot2','figure'),
-  list(input('age-dropdown','value')),
-  function(selected_data){
-    plot2(age = selected_data)
+  list(input('age-dropdown','value'),
+       input('country-dropdown','value')),
+  function(age_select, country_select){
+    plot2(age = age_select, country= country_select)
+  }
+)
+
+
+
+# Call back for adiya's plot:
+app$callback(
+  output('plot4', 'figure'),
+  list(input('country-dropdown','value'),
+       input('sex-dropdown','value')),
+  function(country_select, sex_select){
+    plot4(countries = country_select, gender= sex_select)
   }
 )
 
