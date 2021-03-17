@@ -10,7 +10,7 @@ library(gghighlight)
 #install.packages("gghighlight")
 
 # Read the required data set:
-data <- read.csv("master.csv")
+data <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/master.csv")
 
 # Reaname the column as country:
 names(data)[1] <- 'country'
@@ -72,7 +72,7 @@ plot1 <- function(){
 
 
 # Yatin's Graph:
-plot1_data<- read.csv("line_data.csv")
+plot1_data<- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/line_data.csv")
 plot1_data$year <- as.Date(plot1_data$year,format="%Y")
 plot1_data$age <- as.factor(plot1_data$age)
 head(plot1_data)
@@ -96,7 +96,7 @@ plot2 <- function(age){
 
 
 # Poojitha's Graph:
-diverge_gender <- read.csv("diverge_data.csv")
+diverge_gender <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/diverge_data.csv")
 head(diverge_gender)
 
 diverge_gender_plot <- diverge_gender %>%
@@ -105,7 +105,6 @@ diverge_gender_plot <- diverge_gender %>%
                                               -1*Average_suicides_per_capita))
 
 plot3 <- function(){
-  options(repr.plot.width = 20, repr.plot.height = 50)
   p1 <- diverge_gender_plot %>%
     ggplot(aes(x = country, y = Average_suicides_per_capita, fill = sex))+
     geom_bar(stat = "identity")+
