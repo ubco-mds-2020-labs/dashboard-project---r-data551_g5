@@ -59,7 +59,7 @@ plot1 <- function(){
   fig <- plot_geo(suicide_df)
   fig <- fig %>% add_trace(
     z = ~average_suicides, color= ~average_suicides,
-    colors = 'YlOrRd',
+    colors = 'plasma',
     text = ~region, locations = ~CODE, marker = list(line = l)
   )
   fig <- fig %>% layout(
@@ -155,7 +155,6 @@ plot5 <- function(country_data){
           axis.text.x=element_blank(), 
           axis.ticks.x=element_blank(),
           legend.position = "bottom")
-  p5
     
   return(ggplotly(p5) %>%
            layout(legend = list(orientation= "h", x= 0, y= 0)
