@@ -66,7 +66,7 @@ plot1 <- function(){
     geo = g,
     width = 800,
     height = 400,
-    paper_bgcolor = 'lightgrey'
+    paper_bgcolor = '#F5F5DC'
   )
   return(fig)
 }
@@ -76,7 +76,6 @@ plot1 <- function(){
 plot1_data<- read.csv("data/line_data.csv")
 plot1_data$year <- as.Date(plot1_data$year,format="%Y")
 plot1_data$age <- as.factor(plot1_data$age)
-head(plot1_data)
 
 plot2 <- function(age, country){
   plot1_data <- plot1_data[plot1_data$age == age,]
@@ -94,14 +93,12 @@ plot2 <- function(age, country){
 
 # Poojitha's Graph:
 diverge_gender <- read.csv("data/diverge_data.csv")
-head(diverge_gender)
 
 x <- diverge_gender[order(diverge_gender$Average_suicides_per_capita, decreasing = TRUE),]
 y <- x$country
 top_n <- y[1:20]
 diverge_gender_plot <- diverge_gender[diverge_gender$country %in% top_n,]
 
-diverge_gender_plot
 diverge_gender_plot <- diverge_gender_plot %>%
   mutate(Average_suicides_per_capita = ifelse(sex == "male",
                                               Average_suicides_per_capita,
@@ -165,7 +162,6 @@ plot5 <- function(country_data){
 
 plot6 <- function(country_, sex_, age_){
   data_subset <- subset(data, country== country_ & sex==sex_ & age==age_)
-  print(data_subset)
   g6 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
     geom_point(aes(size = 'gdp_per_capita')) +
     ggtitle('GDP Trends by year') +
