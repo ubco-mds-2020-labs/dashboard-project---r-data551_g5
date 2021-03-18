@@ -10,7 +10,7 @@ library(gghighlight)
 #install.packages("gghighlight")
 
 # Read the required data set:
-data <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/master.csv")
+data <- read.csv("master.csv")
 
 # Reaname the column as country:
 names(data)[1] <- 'country'
@@ -23,7 +23,7 @@ country_data <- data %>%
   )
 
 # Rename the columns so that they are helpful for merging:
-names(country_data) <- c("region", "value")
+names(country_data) <- c("region", "average_suicides")
 
 
 
@@ -32,7 +32,7 @@ df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_wo
 names(df)[1] <- "region"
 
 # Read the required suicide dataset:
-suicide_data <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/master_HDI.csv")
+suicide_data <- read.csv("master_HDI.csv")
 
 #setdiff(country_data$region, df$region)
 
@@ -59,22 +59,22 @@ plot1 <- function(){
   )
   fig <- plot_geo(suicide_df)
   fig <- fig %>% add_trace(
-    z = ~value, color= ~value,
-    colors = 'plasma',
+    z = ~average_suicides, color= ~average_suicides,
+    colors = 'YlOrRd',
     text = ~region, locations = ~CODE, marker = list(line = l)
   )
   fig <- fig %>% layout(
     geo = g,
     width = 800,
-    height = 300,
-    paper_bgcolor = '#F5F5DC'
+    height = 400,
+    paper_bgcolor = 'lightgrey'
   )
   return(fig)
 }
 
 
 # Yatin's Graph:
-plot1_data<- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/line_data.csv")
+plot1_data<- read.csv("line_data.csv")
 plot1_data$year <- as.Date(plot1_data$year,format="%Y")
 plot1_data$age <- as.factor(plot1_data$age)
 head(plot1_data)
@@ -88,21 +88,17 @@ plot2 <- function(age, country){
          y="Average_suicides_per_capita")
   g1 <- g+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                 panel.background = element_blank(), axis.line = element_line(colour = "black"))
-  
-  
-  g1 <- g1+theme(axis.text=element_text(size=5),
-                 axis.title=element_text(size=5,face="bold"),
-                 legend.title = element_text(color = "black", size = 5),
-                 legend.text = element_text(color = 'black', size = 5))
+
   return(ggplotly(g1))
 }
 
 
 # Poojitha's Graph:
-diverge_gender <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/diverge_data.csv")
+diverge_gender <- read.csv("diverge_data.csv")
 head(diverge_gender)
 
 x <- diverge_gender[order(diverge_gender$Average_suicides_per_capita, decreasing = TRUE),]
+y <- x$country
 top_n <- y[1:20]
 diverge_gender_plot <- diverge_gender[diverge_gender$country %in% top_n,]
 
@@ -116,16 +112,11 @@ plot3 <- function(){
   p1 <- diverge_gender_plot %>%
     ggplot(aes(x = country, y = Average_suicides_per_capita, fill = sex))+
     geom_bar(stat = "identity")+
-    coord_flip()+labs(title="Sex based factors")
+    coord_flip()+labs(title="Sex based factors") + ggtitle('Sex based factors(Top 20 Countries by Average_suicides_per_Capita)')
   p1 <- p1+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                  panel.background = element_blank(), axis.line = element_line(colour = "black"))
-  p2 <- p1+theme(axis.text=element_text(size=5),
-           axis.title=element_text(size=5,face="bold"),
-           plot.title = element_text(size=5),
-           legend.position = 'top',
-           legend.title = element_blank(),
-           legend.text = element_text(size = 5))
-  return(ggplotly(p2))
+
+  return(ggplotly(p1))
 }
 
 
@@ -135,13 +126,17 @@ plot4 <- function(countries, gender){
   data_subset <- subset(suicide_data, country==countries & sex==gender)
   p4 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
     geom_point(aes(size = HDI, color = age)) +
-    ggtitle('Plot of Suicides per 100k by Year') +
+    ggtitle('suicides per capita by Year') +
     xlab('Year') + ylab('Suicides per 100k Population')
-  return(ggplotly(p4))
+  g1 <- p4+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                panel.background = element_blank(), axis.line = element_line(colour = "black"))
+  
+  return(ggplotly(g1))
 }
 
 # Sowmya's plot
 plot5 <- function(country_data){
+  data = data[data$country == country_data,]
   data[data$generation=='G.I. Generation',]$generation <- '1.G.I'
   data[data$generation=='Silent',]$generation <- '2.Silent'
   data[data$generation=='Boomers',]$generation <- '3.Boomers'
@@ -155,7 +150,7 @@ plot5 <- function(country_data){
     )+
     geom_boxplot(text = paste('generation', data$generation))+
     facet_wrap(~data$sex)+
-    #ggtitle("Suicides per 100k vs generation")+
+    ggtitle("Suicides per capita by Generation ")+
     ylab("Suicides per 100k")+
     xlab("Generation")+theme_bw()+
     theme(axis.title.x=element_blank(),
@@ -171,13 +166,15 @@ plot5 <- function(country_data){
 
 # Aditya's plot:
 
-plot6 <- function(){
-  data_subset <- subset(data, country=='Canada' & sex=='male' & age=='15-24 years')
+plot6 <- function(country_, sex_, age_){
+  data_subset <- subset(data, country== country_ & sex==sex_ & age==age_)
+  print(data_subset)
   g6 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
     geom_point(aes(size = 'gdp_per_capita')) +
-    ggtitle('Plot of Suicides per 100k by Year') +
+    ggtitle('GDP Trends by year') +
     xlab('Year') + ylab('Suicides per 100k Population')
-  
+ g6 <-  g6+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black"))
   return(ggplotly(g6))
 }
 
