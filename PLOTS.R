@@ -3,14 +3,13 @@
 library(ggplot2)
 library(plotly)
 library(dplyr)
-library(ggiraph)
 library(ggthemes)
 library(dplyr)
-library(gghighlight)
-#install.packages("gghighlight")
+
 
 # Read the required data set:
-data <- read.csv("master.csv")
+data <- read.csv("data/master.csv")
+data <- data[complete.cases(data), ]
 
 # Reaname the column as country:
 names(data)[1] <- 'country'
@@ -21,7 +20,7 @@ country_data <- data %>%
   summarise(
     suicides_no = mean(suicides_no)
   )
-
+country_data <- as.data.frame(country_data)
 # Rename the columns so that they are helpful for merging:
 names(country_data) <- c("region", "average_suicides")
 
@@ -32,12 +31,12 @@ df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_wo
 names(df)[1] <- "region"
 
 # Read the required suicide dataset:
-suicide_data <- read.csv("master_HDI.csv")
+suicide_data <- read.csv("data/master_HDI.csv")
 
 #setdiff(country_data$region, df$region)
 
 # Rename the missing countries:
-country_data[country_data$region == "Russian Federation",]$region <- "Russia"
+country_data$region[country_data$region == "Russian Federation"] <- "Russia"
 
 # Create a merged data set:
 suicide_df <- left_join(df, country_data, by= "region")
@@ -74,7 +73,7 @@ plot1 <- function(){
 
 
 # Yatin's Graph:
-plot1_data<- read.csv("line_data.csv")
+plot1_data<- read.csv("data/line_data.csv")
 plot1_data$year <- as.Date(plot1_data$year,format="%Y")
 plot1_data$age <- as.factor(plot1_data$age)
 head(plot1_data)
@@ -94,7 +93,7 @@ plot2 <- function(age, country){
 
 
 # Poojitha's Graph:
-diverge_gender <- read.csv("diverge_data.csv")
+diverge_gender <- read.csv("data/diverge_data.csv")
 head(diverge_gender)
 
 x <- diverge_gender[order(diverge_gender$Average_suicides_per_capita, decreasing = TRUE),]
@@ -136,13 +135,12 @@ plot4 <- function(countries, gender){
 
 # Sowmya's plot
 plot5 <- function(country_data){
-  data = data[data$country == country_data,]
-  data[data$generation=='G.I. Generation',]$generation <- '1.G.I'
-  data[data$generation=='Silent',]$generation <- '2.Silent'
-  data[data$generation=='Boomers',]$generation <- '3.Boomers'
-  data[data$generation=='Generation X',]$generation <- '4.Gen X'
-  data[data$generation=='Millenials',]$generation <- '5.Millenials'
-  data[data$generation=='Generation Z',]$generation <- '6.Gen Z'
+  data$generation[data$generation=='G.I. Generation'] <- '1.G.I'
+  data$generation[data$generation=='Silent'] <- '2.Silent'
+  data$generation[data$generation=='Boomers'] <- '3.Boomers'
+  data$generation[data$generation=='Generation X'] <- '4.Gen X'
+  data$generation[data$generation=='Millenials'] <- '5.Millenials'
+  data$generation[data$generation=='Generation Z'] <- '6.Gen Z'
   p5 <- ggplot(data = data)+
     aes(x = data$generation,
         y = data$suicides.100k.pop,

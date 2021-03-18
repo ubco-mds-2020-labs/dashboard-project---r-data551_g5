@@ -5,7 +5,7 @@ library(dashBootstrapComponents)
 library(ggplot2)
 library(plotly)
 library(dplyr)
-library(ggiraph)
+
 ####
 
 source("PLOTS.R")
@@ -161,4 +161,4 @@ app$callback(
   }
 )
 
-app$run_server(debug = T)
+app$run_server(host = '0.0.0.0')
