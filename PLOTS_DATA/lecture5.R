@@ -71,33 +71,33 @@ app$layout(
         list(
           htmlBr(),
           dbcRow(list(
-            dbcCol(
-              #htmlH6('COUNTRY'),
+            dbcCol(list(
+              htmlH6('COUNTRY'),
               dccDropdown(
               id = 'country-dropdown-2',
               value = 'Canada',
               options = country_data$region %>%
                 purrr::map(function(col) list(label = col, value= col)),
                 style = list(width='300')
-            )),
-            dbcCol(
-              #htmlH6('AGE'),
+            ))),
+            dbcCol(list(
+              htmlH6('AGE'),
               dccDropdown(
               id = 'age-dropdown-2',
               value = '15-24 years',
               options = unique(data$age) %>%
                 purrr::map(function(col) list(label = col, value= col)),
               style = list(width='300', margin = '15')
-            )),
-            dbcCol(
-              #htmlH6('SEX'),
+            ))),
+            dbcCol(list(
+              htmlH6('SEX'),
               dccDropdown(
               id = 'sex-dropdown-2',
               value = 'male',
               options = unique(data$sex) %>%
                 purrr::map(function(col) list(label = col, value= col)),
               style = list(width='300')
-            ))
+            )))
           ), style = list(display = 'flex')),
           htmlBr(),
           dbcRow(list(
