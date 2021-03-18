@@ -67,12 +67,36 @@ app$layout(
         list(
           htmlBr(),
           htmlH2("This is the content for the second tab"),
-          dbcRow(dbcCol(dccGraph(figure = plot3()))),
           dbcRow(list(
-            dbcCol(dccGraph(figure = plot5())),
+            dccDropdown(
+              id = 'age-dropdown-2',
+              value = 'Canada',
+              options = country_data$region %>%
+                purrr::map(function(col) list(label = col, value= col))
+            ),
+            dccDropdown(
+              id = 'country-dropdown-2',
+              value = 'Canada',
+              options = country_data$region %>%
+                purrr::map(function(col) list(label = col, value= col)),
+              style = list(width =300)
+            ),
+            dccDropdown(
+              id = 'sex-dropdown-2',
+              value = 'Canada',
+              options = country_data$region %>%
+                purrr::map(function(col) list(label = col, value= col)),
+              style = list(width =300)
+            )
+          )),
+          dbcRow(list(
+            dbcCol(dccGraph(figure = plot6())),
+            dbcCol(dccGraph(figure = plot5()))
+          )
+          ),
+          dbcRow(list(
             dbcCol(dccGraph(figure = plot3()))
-          )
-          )
+          ))
         )
       ))
     )
@@ -103,7 +127,5 @@ app$callback(
     plot4(countries = country_select, gender= sex_select)
   }
 )
-
-
 
 app$run_server(debug = T)

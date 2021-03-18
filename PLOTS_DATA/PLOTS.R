@@ -102,7 +102,12 @@ plot2 <- function(age, country){
 diverge_gender <- read.csv("C:/Users/mural/MDS/BLOCK5/DATA551_R/PLOTS_DATA/diverge_data.csv")
 head(diverge_gender)
 
-diverge_gender_plot <- diverge_gender %>%
+x <- diverge_gender[order(diverge_gender$Average_suicides_per_capita, decreasing = TRUE),]
+top_n <- y[1:20]
+diverge_gender_plot <- diverge_gender[diverge_gender$country %in% top_n,]
+
+diverge_gender_plot
+diverge_gender_plot <- diverge_gender_plot %>%
   mutate(Average_suicides_per_capita = ifelse(sex == "male",
                                               Average_suicides_per_capita,
                                               -1*Average_suicides_per_capita))
@@ -150,17 +155,30 @@ plot5 <- function(country_data){
     )+
     geom_boxplot(text = paste('generation', data$generation))+
     facet_wrap(~data$sex)+
-    ggtitle("Suicides per 100k vs generation")+
+    #ggtitle("Suicides per 100k vs generation")+
     ylab("Suicides per 100k")+
-    xlab("Generation")+
-    theme(axis.text.x = element_blank(),
-          axis.title.x = element_blank(),
-          axis.ticks.x=element_blank(), 
-          panel.background = element_rect(fill = "grey",linetype = "solid")
-          )
-    
+    xlab("Generation")+theme_bw()+
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(), 
+          axis.ticks.x=element_blank(),
+          legend.position = "bottom")
   p5
-  return(ggplotly(p5))
+    
+  return(ggplotly(p5) %>%
+           layout(legend = list(orientation= "h", x= 0, y= 0)
+                  ))
 }
 
-ggplotly(p5)
+# Aditya's plot:
+
+plot6 <- function(){
+  data_subset <- subset(data, country=='Canada' & sex=='male' & age=='15-24 years')
+  g6 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
+    geom_point(aes(size = 'gdp_per_capita')) +
+    ggtitle('Plot of Suicides per 100k by Year') +
+    xlab('Year') + ylab('Suicides per 100k Population')
+  
+  return(ggplotly(g6))
+}
+
+
