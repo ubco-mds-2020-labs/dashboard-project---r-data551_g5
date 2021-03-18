@@ -132,12 +132,7 @@ plot4 <- function(countries, gender){
 
 # Sowmya's plot
 plot5 <- function(country_data){
-  data$generation[data$generation=='G.I. Generation'] <- '1.G.I'
-  data$generation[data$generation=='Silent'] <- '2.Silent'
-  data$generation[data$generation=='Boomers'] <- '3.Boomers'
-  data$generation[data$generation=='Generation X'] <- '4.Gen X'
-  data$generation[data$generation=='Millenials'] <- '5.Millenials'
-  data$generation[data$generation=='Generation Z'] <- '6.Gen Z'
+  
   p5 <- ggplot(data = data)+
     aes(x = data$generation,
         y = data$suicides.100k.pop,
@@ -145,17 +140,18 @@ plot5 <- function(country_data){
     )+
     geom_boxplot(text = paste('generation', data$generation))+
     facet_wrap(~data$sex)+
-    ggtitle("Suicides per capita by Generation ")+
+    #ggtitle("Suicides per 100k vs generation")+
     ylab("Suicides per 100k")+
     xlab("Generation")+theme_bw()+
     theme(axis.title.x=element_blank(),
           axis.text.x=element_blank(), 
           axis.ticks.x=element_blank(),
           legend.position = "bottom")
-    
+
+  
   return(ggplotly(p5) %>%
            layout(legend = list(orientation= "h", x= 0, y= 0)
-                  ))
+           ))
 }
 
 # Aditya's plot:
