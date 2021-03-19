@@ -19,17 +19,17 @@ We developed an interactive dashboard to throw some insights on the number of su
 * Changing Trends of Number of Suicides by age and Generation
 * Overall measure of Suicides by Gender for all countries
 
-Visit our App - [Click here](https://dashboardgroup5final.herokuapp.com)
+Visit our App - [Click here](https://data551group5v1app.herokuapp.com)
 ## Who we are?
 
 A fun and energetic team who decided to go all grey with an unfathomed topic of Suicides!
 
 We are students in the Master of Data Science program at The University of British Columbia. You can reach out to us anytime, we have a lot of ideas that are up for Dashing!
 
-* Aditya Saluja
+* Aditya Saluja(adisal97@student.ubc.ca)
 * Poojitha Gowthaman (pgowth@student.ubc.ca)
-* Sowmya Chenti Kumar
-* Yatin Behl 
+* Sowmya Chenti Kumar [Click here](ga141675@ubc.mail.ca)
+* Yatin Behl(behl@student.ubc.ca)
 
 ## What's in Store?
 The dashboard is currently under active development and will be followed by updates and bug fixes
@@ -53,4 +53,4 @@ Thanks much for visiting our project and we all hope that you will join us throu
 
 Have a good day!
 
-Thanks for reading till the end, you can also access our App here - [Click](https://dashboardgroup5final.herokuapp.com).
+Thanks for reading till the end, you can also access our App here - [Click here](https://data551group5v1app.herokuapp.com)
