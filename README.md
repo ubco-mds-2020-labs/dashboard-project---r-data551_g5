@@ -28,7 +28,7 @@ We are students in the Master of Data Science program at The University of Briti
 
 * Aditya Saluja(adisal97@student.ubc.ca)
 * Poojitha Gowthaman (pgowth@student.ubc.ca)
-* Sowmya Chenti Kumar [Click here](ga141675@ubc.mail.ca)
+* Sowmya Chenthi Kumar [Click here](ga141675@ubc.mail.ca)
 * Yatin Behl(behl@student.ubc.ca)
 
 ## What's in Store?
