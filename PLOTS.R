@@ -66,7 +66,7 @@ plot1 <- function(){
     geo = g,
     width = 800,
     height = 400,
-    paper_bgcolor = '#F5F5DC'
+    paper_bgcolor = 'white'
   )
   return(fig)
 }
@@ -122,7 +122,7 @@ plot4 <- function(countries, gender){
   data_subset <- subset(suicide_data, country==countries & sex==gender)
   p4 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
     geom_point(aes(size = HDI, color = age)) +
-    ggtitle('suicides per capita by Year') +
+    ggtitle('Suicides per capita by Year') +
     xlab('Year') + ylab('Suicides per 100k Population')
   g1 <- p4+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                 panel.background = element_blank(), axis.line = element_line(colour = "black"))
