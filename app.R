@@ -52,7 +52,9 @@ app$layout(
                 dbcCol(list(dbcCard(dbcCardBody(list(htmlP(list(dccGraph(figure = plot1())))))))))),
               htmlBr(),
               dbcRow(list(
-                dbcCol(list(dbcCard(dbcCardBody(list(htmlP(list(dccGraph(id= "plot2",figure = plot2(age='15-24 years', country= 'Canada'))))))))),
+                dbcCol(list(dbcCard(dbcCardBody(list(htmlP(list(dccGraph(id= "plot2",
+                                                                         figure = plot2(age='15-24 years', country= 'Canada',sex = 'male')
+                                                                         )))))))),
                 dbcCol(list(dbcCard(dbcCardBody(list(htmlP(list(dccGraph(id = 'plot5', figure = plot5(country = 'Canada'))))))))))),
               htmlBr()))))),
       dccTab(label = "Factors",
@@ -112,9 +114,10 @@ app$layout(
 app$callback(
   output('plot2','figure'),
   list(input('age-dropdown','value'),
-       input('country-dropdown','value')),
-  function(age_select, country_select){
-    plot2(age = age_select, country= country_select)
+       input('country-dropdown','value'),
+       input('sex-dropdown', 'value')),
+  function(age_select, country_select, sex_select){
+    plot2(age = age_select, country= country_select, sex=sex_select)
   }
 )
 
@@ -152,3 +155,5 @@ app$callback(
 )
 
 app$run_server(host = '0.0.0.0')
+
+

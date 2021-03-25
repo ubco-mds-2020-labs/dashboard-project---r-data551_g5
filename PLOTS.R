@@ -9,7 +9,6 @@ library(dplyr)
 
 # Read the required data set:
 data <- read.csv("data/master.csv")
-data <- data[complete.cases(data), ]
 
 # Reaname the column as country:
 names(data)[1] <- 'country'
@@ -72,26 +71,29 @@ plot1 <- function(){
 }
 
 
-# Yatin's Graph:
+
 plot1_data<- read.csv("data/line_data.csv")
+head(plot1_data)
 plot1_data$year <- as.Date(plot1_data$year,format="%Y")
 plot1_data$age <- as.factor(plot1_data$age)
 
-plot2 <- function(age, country){
+plot2 <- function(age, country, sex){
   plot1_data <- plot1_data[plot1_data$age == age,]
   plot1_data <- plot1_data[plot1_data$country == country,]
+  plot1_data <- plot1_data[plot1_data$sex == sex,]
+  head(plot1_data)
   g <- ggplot(plot1_data, aes(x = year, y = Average_suicides_per_capita, colour = age))+geom_line() +
-    labs(title="Average Suicides per Capita by year Colored by Age",
-         x="year",
-         y="Average_suicides_per_capita")
+    labs(title="Average Suicides per Capita by Year",
+         x="Year",
+         y="Average Suicides per Capita")
   g1 <- g+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                 panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
   return(ggplotly(g1))
 }
 
+plot2(age = "15-24 years", country = "Canada", sex = "male")
 
-# Poojitha's Graph:
 diverge_gender <- read.csv("data/diverge_data.csv")
 
 x <- diverge_gender[order(diverge_gender$Average_suicides_per_capita, decreasing = TRUE),]
@@ -107,8 +109,9 @@ diverge_gender_plot <- diverge_gender_plot %>%
 plot3 <- function(){
   p1 <- diverge_gender_plot %>%
     ggplot(aes(x = country, y = Average_suicides_per_capita, fill = sex))+
+    xlab('Average Suicides per Capita') + ylab('Country')+
     geom_bar(stat = "identity")+
-    coord_flip()+labs(title="Sex based factors") + ggtitle('Sex based factors(Top 20 Countries by Average_suicides_per_Capita)')
+    coord_flip()+labs(title="Sex based Factors") + ggtitle('Sex-based Factors (Top 20 countries by average suicides per capita)')
   p1 <- p1+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                  panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
@@ -116,13 +119,13 @@ plot3 <- function(){
 }
 
 
-# Aditya plot:
+
 
 plot4 <- function(countries, gender){
   data_subset <- subset(suicide_data, country==countries & sex==gender)
   p4 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
     geom_point(aes(size = HDI, color = age)) +
-    ggtitle('Suicides per capita by Year') +
+    ggtitle('Suicides per Capita by Year') +
     xlab('Year') + ylab('Suicides per 100k Population')
   g1 <- p4+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                 panel.background = element_blank(), axis.line = element_line(colour = "black"))
@@ -130,37 +133,40 @@ plot4 <- function(countries, gender){
   return(ggplotly(g1))
 }
 
-# Sowmya's plot
+
 plot5 <- function(country_data){
-  
+  data <- read.csv("data/master_boxplot.csv")
+  names(data)[1] <- 'country'
+  data <- subset(data, country== country_data)
   p5 <- ggplot(data = data)+
     aes(x = data$generation,
         y = data$suicides.100k.pop,
         color = generation,
+        fill= generation
     )+
     geom_boxplot(text = paste('generation', data$generation))+
-    facet_wrap(~data$sex)+
-    #ggtitle("Suicides per 100k vs generation")+
-    ylab("Suicides per 100k")+
-    xlab("Generation")+theme_bw()+
+    facet_wrap(~data$sex, nrow=2)+
+    ggtitle("Suicides per 100k vs Generation")+
+    xlab(" ")+
+    theme_bw()+
     theme(axis.title.x=element_blank(),
-          axis.text.x=element_blank(), 
           axis.ticks.x=element_blank(),
-          legend.position = "bottom")
-
-  
-  return(ggplotly(p5) %>%
-           layout(legend = list(orientation= "h", x= 0, y= 0)
-           ))
+          legend.position = "none"
+    )+
+    coord_flip()
+  return(ggplotly(p5)%>%
+           layout(margin=list(l=75),
+                  xaxis = list(title = "Suicides per 100k")))
 }
 
-# Aditya's plot:
+plot5("Canada")
+
 
 plot6 <- function(country_, sex_, age_){
   data_subset <- subset(data, country== country_ & sex==sex_ & age==age_)
   g6 <- ggplot(data_subset, aes(x=year, y=suicides.100k.pop)) + 
-    geom_point(aes(size = 'gdp_per_capita')) +
-    ggtitle('GDP Trends by year') +
+    geom_point(aes(size = gdp_per_capita),colour="lightblue") +
+    ggtitle('GDP Trends by Year') +
     xlab('Year') + ylab('Suicides per 100k Population')
  g6 <-  g6+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank(), axis.line = element_line(colour = "black"))
