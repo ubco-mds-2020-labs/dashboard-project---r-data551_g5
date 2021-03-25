@@ -10,8 +10,10 @@ The team did a good job of distributing the workload; however, we faced difficul
 ## Current Limitations
 
 - Some plots have limited interactivity; for instance we would like to link the map to different plots in the overview tab. 
+- Linking plots with plotly was a task. We are identifying a right plot pairing to save the integrity
 - We would like to implement an API instead of a static dataset to get insights on the impact of the pandemic on mental health
 
 ## Future Releases
 - Allowing the user to plot trendlines and preform simple regression
+- Adding in app help navigations
 - Pointing users to additional resources such as research papers, news articles and journals.
