@@ -53,4 +53,4 @@ Thanks much for visiting our project and we all hope that you will join us throu
 
 Have a good day!
 
-Thanks for reading till the end, you can also access our App here - [Click here](https://data551group5v1app.herokuapp.com)
+Thanks for reading till the end, you can also access our App here - [Click here](https://suicide-gi-dash.herokuapp.com/)
